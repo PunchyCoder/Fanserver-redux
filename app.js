@@ -55,12 +55,16 @@ function buildTemplate(element) {
 	return elDiv;
 }
 
-function runSearchNextOffset(element) {
+// First, prev, next, last
+
+function runSearchNextOffset(element, pageDirection) {
 
 
 	// SUCCESS! finally got this endpoint to work!
-	// Check to see if it was Bracket notation that I was missing..
-	fetch(element["links"].next)
+	// Check to see if it was Bracket notation that I was missing
+
+	// Added 'pageDirection' in hopes of fetching from the proper page/offset
+	fetch(element["links"][pageDirection])
 	.then(response => response.json())
 	.then(responseJson => {
 		formatSearchResults(responseJson);
@@ -70,6 +74,20 @@ function runSearchNextOffset(element) {
 
 function clearPreviousResults() {
 	elSearchResults.innerHTML = '';
+}
+
+function buildPaginationButtons(responseJson, pageDirection) {
+
+	console.log(pageDirection)
+
+	var elButton = document.createElement('button');
+	var id = document.createAttribute('id');
+	id.value = pageDirection + '-button';
+	elButton.setAttributeNode(id);
+	elButton.innerText = pageDirection;
+	elButton.addEventListener('click', ()=>{ runSearchNextOffset(responseJson, pageDirection) });
+	
+	elSearchResults.appendChild(elButton)
 }
 
 function formatSearchResults(responseJson) {
@@ -93,19 +111,17 @@ function formatSearchResults(responseJson) {
 		
 	})
 
-	var elNextButton = document.createElement('button');
-	var id = document.createAttribute('id');
-	id.value = "next-button";
-	elNextButton.setAttributeNode(id);
-	elNextButton.innerText = "NEXT!.. BITCHES!";
+	// check responseJson.links for object keys(first,next,prev,last)
+	// forEach keys link/page build button for it.
 
+	const pageLinkArray = Object.keys(responseJson["links"]);
 
+	pageLinkArray.forEach( link => { buildPaginationButtons(responseJson, link) })
 
-	elNextButton.addEventListener('click', ()=>{ runSearchNextOffset(responseJson) });
+	//--------------------------
+
 	
-	elSearchResults.appendChild(elNextButton)
 
-	console.log(elNextButton)
 }
 
 
