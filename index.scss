@@ -1,0 +1,90 @@
+
+
+body {
+    font-family: 'Mukta', sans-serif;
+
+	h1,h2,h3,h4 {
+    font-family: 'Homenaje', cursive;
+    margin: auto;
+	}
+}
+
+header{
+	color: #fff;
+	width: 100%;
+	height: 500px;
+
+	background-image: url('./saitama-punches.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+
+	li{
+		list-style-type: none;
+	}
+	nav {
+		display: flex;
+		justify-content: space-between;
+		margin: 0 40px;
+	}
+}
+
+	
+.logo-nav ul{
+	padding: 0;
+	display: flex;
+	justify-content: space-around;
+	align-items: baseline;
+
+	h1,h2 { margin: 0 10px; }
+
+	a {
+		margin: 0 20px;
+		color: #fff;
+		text-decoration: none;
+	}
+}
+
+.search-nav  {
+	form{
+		margin: 16px 0;
+	}
+}
+
+main {
+	display: flex;
+	justify-content: space-between;
+/*	width: 100%;*/
+	margin: 0 auto;
+	max-width: 960px;
+}
+
+.explore-wrapper {
+	display: flex;
+	flex-direction: column;
+	width: 660px;
+
+	.explore-search {
+		margin: 20px 0;
+	}
+}
+
+#search-results {
+	display: flex;
+	flex-wrap: wrap;
+
+	.result-card {
+		img {
+			width: 200px;
+		}
+	}
+}
+
+
+.categories {
+	
+	width: 300px;
+	border-radius: 5px;
+    border: solid 2px lightgrey;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
