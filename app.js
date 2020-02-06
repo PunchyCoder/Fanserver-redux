@@ -21,26 +21,24 @@ window.onload = function() {
 }
 
 function injectTemplate(element) {
-	const cardTemplate = 
-		`<div class="result-card">
-			<a href="#"><img src="${element.attributes.titles.en}"></a>
-			<h3>${element.attributes.posterImage.tiny}</h3>
-		</div>`;
 
-	// --------------------------
-
+	// Create Elements
 	var elDiv = document.createElement('div');
 	var elAnchor = document.createElement('a');
 	var elImage = document.createElement('img');
 	var elHeading = document.createElement('h3');
 
+
+	// Create and Set class attribute for 'div'
 	var card = document.createAttribute("class");
 	card.value = "result-card";
 	elDiv.setAttributeNode(card);
 
-	
-	elImage.src = element.attributes.posterImage.tiny;
-	elHeading.innerText = element.attributes.titles.en;
+
+	// Set 'src' and 'innerText' to correct endpoint
+	elImage.src = element.attributes.posterImage.small;
+	elHeading.innerText = element.attributes.canonicalTitle;
+
 
 	//nest elements
 	elAnchor.appendChild(elImage);
@@ -48,7 +46,6 @@ function injectTemplate(element) {
 	elDiv.appendChild(elHeading);
 
 	console.log(elDiv)
-	// NOTE: creating card template!
 
 	return elDiv;
 }
@@ -64,7 +61,7 @@ function formatSearchResults(responseJson) {
 	clearPreviousResults();
 
 	responseJson['data'].forEach(element => {
-		var title = element.attributes.titles.en;
+		var title = element.attributes.slug;
 		var image = element.attributes.posterImage.medium;
 
 		console.log(title, image)
