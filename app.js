@@ -4,6 +4,8 @@
 const url = "https://kitsu.io/api/edge/anime"; //data.attributes.posterImage
 const APIKey = 'AIzaSyARlWxggTnR6mIMhHdyW2Bnf7BomchaBaE';
 
+const elSearchResults = document.getElementById("search-results");
+
 window.onload = function() {
 	const elForm = document.getElementById("search-form");
 
@@ -18,11 +20,60 @@ window.onload = function() {
 	})
 }
 
+function injectTemplate(element) {
+	const cardTemplate = 
+		`<div class="result-card">
+			<a href="#"><img src="${element.attributes.titles.en}"></a>
+			<h3>${element.attributes.posterImage.tiny}</h3>
+		</div>`;
 
+	// --------------------------
+
+	var elDiv = document.createElement('div');
+	var elAnchor = document.createElement('a');
+	var elImage = document.createElement('img');
+	var elHeading = document.createElement('h3');
+
+	var card = document.createAttribute("class");
+	card.value = "result-card";
+	elDiv.setAttributeNode(card);
+
+	
+	elImage.src = element.attributes.posterImage.tiny;
+	elHeading.innerText = element.attributes.titles.en;
+
+	//nest elements
+	elAnchor.appendChild(elImage);
+	elDiv.appendChild(elAnchor);
+	elDiv.appendChild(elHeading);
+
+	console.log(elDiv)
+	// NOTE: creating card template!
+
+	return elDiv;
+}
+
+function clearPreviousResults() {
+	elSearchResults.innerHTML = '';
+}
 
 function formatSearchResults(responseJson) {
 	console.log(responseJson)
 	console.log(responseJson['data'])
+
+	clearPreviousResults();
+
+	responseJson['data'].forEach(element => {
+		var title = element.attributes.titles.en;
+		var image = element.attributes.posterImage.medium;
+
+		console.log(title, image)
+
+		
+
+		elSearchResults.appendChild(injectTemplate(element));
+
+	})
 }
 
 
