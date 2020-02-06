@@ -20,7 +20,12 @@ window.onload = function() {
 	})
 }
 
-function injectTemplate(element) {
+function buildTemplate(element) {
+
+	// Need to check element.data.links to see if there are any other pages!
+	//-------------------------------
+	// Create NEXT Pagination Button!
+	//-------------------------------
 
 	// Create Elements
 	var elDiv = document.createElement('div');
@@ -50,6 +55,19 @@ function injectTemplate(element) {
 	return elDiv;
 }
 
+function runSearchNextOffset(element) {
+
+
+	// SUCCESS! finally got this endpoint to work!
+	// Check to see if it was Bracket notation that I was missing..
+	fetch(element["links"].next)
+	.then(response => response.json())
+	.then(responseJson => {
+		formatSearchResults(responseJson);
+	})
+}
+
+
 function clearPreviousResults() {
 	elSearchResults.innerHTML = '';
 }
@@ -68,9 +86,26 @@ function formatSearchResults(responseJson) {
 
 		
 
-		elSearchResults.appendChild(injectTemplate(element));
+		elSearchResults.appendChild(buildTemplate(element));
 
+		// Add/append Next-Button/Pagination
+		//------------------------------------- Function-IZE!
+		
 	})
+
+	var elNextButton = document.createElement('button');
+	var id = document.createAttribute('id');
+	id.value = "next-button";
+	elNextButton.setAttributeNode(id);
+	elNextButton.innerText = "NEXT!.. BITCHES!";
+
+
+
+	elNextButton.addEventListener('click', ()=>{ runSearchNextOffset(responseJson) });
+	
+	elSearchResults.appendChild(elNextButton)
+
+	console.log(elNextButton)
 }
 
 
